@@ -1,16 +1,16 @@
 {
-  "name": "d3js-dot",
-  "dependencies": {
-    "requirejs": "2.1.15",
-    "ace": "1.1.8",
-    "d3": "3.5.3",
-    "requirejs-web-workers": "~1.0.1"
-  },
-  "devDependencies": {
-    "js-imagediff": "1.0.4",
-    "rfactory": "1.1.0",
-    "requirejs-text": "2.0.13"
-  },
+  "name": "www.graphviz.it",
+  "authors": [
+    "Marcin Stefaniuk <marcin@stefaniuk.info>"
+  ],
+  "license": "GPL",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "spec"
+  ],
   "exportsOverride": {
     "requirejs": {
       "": "require.js"
@@ -28,15 +28,8 @@
       "": "src/*"
     }
   },
-  "authors": [
-    "Marcin Stefaniuk <marcin@stefaniuk.info>"
-  ],
-  "license": "GPL",
-  "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "spec"
-  ]
+  "dependencies": {
+    "graphviz-d3-renderer": "~0.9.1",
+    "ace": "1.1.8"
+  }
 }

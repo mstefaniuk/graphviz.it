@@ -10,5 +10,3 @@ before_script:
   - npm install -g hoodie-cli
   - grunt build
   - npm start &
-after_success:
-  - grunt coveralls

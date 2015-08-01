@@ -1,4 +1,4 @@
-require(["renderer", 'pegace', "ace/ace", "ace/lib/lang", "ace/ext/statusbar"],
+require(["renderer", 'dot-checker', "ace/ace", "ace/lib/lang", "ace/ext/statusbar"],
   function (renderer, pegace, ace, lang, statusbar) {
 
     var editor = ace.edit("editor");
