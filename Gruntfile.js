@@ -18,7 +18,7 @@ module.exports = function (grunt) {
           layout: "byType",
           cleanBowerDir: true,
           bowerOptions: {
-            production: false
+            production: true
           }
         }
       }

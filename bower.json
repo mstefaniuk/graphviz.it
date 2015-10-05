@@ -15,21 +15,15 @@
     "requirejs": {
       "": "require.js"
     },
-    "requirejs-text": {
-      "": "text.js"
-    },
     "ace": {
       "": "lib/ace"
-    },
-    "js-imagediff": {
-      "": "imagediff.js"
     },
     "requirejs-web-workers": {
       "": "src/*"
     }
   },
   "dependencies": {
-    "graphviz-d3-renderer": "~0.9.1",
+    "graphviz-d3-renderer": "~0.9.5",
     "ace": "1.1.8"
   }
 }

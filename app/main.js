@@ -1,13 +1,12 @@
 require.config({
   baseUrl: "app/js",
   paths: {
-    d3: '/bower_components/d3/d3',
-    ace: '/bower_components/ace/lib/ace',
-    "dot-checker": '/bower_components/graphviz-d3-renderer/dist/dot-checker',
-    "renderer": '/bower_components/graphviz-d3-renderer/dist/renderer',
-    "viz": '/bower_components/graphviz-d3-renderer/dist/viz',
-    "layout-worker": '/bower_components/graphviz-d3-renderer/dist/layout-worker',
-    worker: '/bower_components/requirejs-web-workers/src/worker'
+    d3: '/lib/d3/d3',
+    ace: '/lib/ace',
+    "dot-checker": '/lib/graphviz-d3-renderer/dot-checker',
+    "renderer": '/lib/graphviz-d3-renderer/renderer',
+    "layout-worker": '/lib/graphviz-d3-renderer/layout-worker',
+    worker: '/lib/requirejs-web-workers/worker'
   },
   deps: ["app"]
 });
