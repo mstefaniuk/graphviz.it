@@ -1,6 +1,6 @@
 Graphviz.it website
 ===================
-It uses `graphviz-d3-renderer` Bower module and adds editor and live preview of code.
+It uses `graphviz-d3-renderer` Bower module and adds editor and live preview of code. Try it on [Graphviz fiddling website](http://graphviz.it/).
 
 Features
 --------
@@ -9,8 +9,9 @@ Features
 
 Roadmap
 -------
-* Add code completion for `dot` source editor
-* Move `dot` parsing to Ace WebWorker
+* storing fiddles for sharing
+* add code completion for `dot` source editor
+* move `dot` parsing to Ace WebWorker
 
 License
 -------
