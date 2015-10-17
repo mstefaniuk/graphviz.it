@@ -2,57 +2,7 @@
 <head>
   <meta charset="utf-8">
   <title>Interactive Graphviz editor in your browser</title>
-  <style>
-
-    body {
-      font-family: monospace;
-      font-size: 0.9em;
-      overflow: hidden;
-    }
-
-    svg {
-      margin: 15px;
-    }
-
-    #editor {
-      position: absolute;
-      top: 0;
-      bottom: 1.5em;
-      left: 0;
-      width: 40%;
-    }
-
-    #editor-bar {
-      padding: 0;
-      margin: 0;
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 40%;
-      height: 1.5em;
-    }
-
-    #graph {
-      top: 0;
-      left: 40%;
-      position: absolute;
-      right: 0;
-      bottom: 1.5em;
-      width: 60%;
-      overflow: auto;
-    }
-
-    path {
-      fill: transparent;
-      stroke: black;
-    }
-
-    text {
-      text-anchor: middle;
-      font-family: "Times-Roman", serif;
-      font-size: 10pt;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="app/stylesheet/layout.css" media="all">
 </head>
 <body>
 
@@ -84,7 +34,6 @@
 </div>
 <div id="editor-bar" class="ace_status-indicator"></div>
 <div id="graph"></div>
-<div id="editor-bar" class="ace_status-indicator"></div>
 
 <script src="lib/requirejs/require.js" data-main="app/main.js"></script>
 <script>
