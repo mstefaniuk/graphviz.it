@@ -24,6 +24,8 @@
   },
   "dependencies": {
     "graphviz-d3-renderer": "~0.9.5",
-    "ace": "1.1.8"
+    "ace": "1.1.8",
+    "pouchdb": "~5.0.0",
+    "bootstrap": "4.0.0-alpha"
   }
 }

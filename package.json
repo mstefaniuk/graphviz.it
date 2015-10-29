@@ -5,21 +5,14 @@
     "grunt": "~0.4.2",
     "grunt-bower-task": "~0.4.0",
     "grunt-contrib-clean": "~0.5.0",
-    "grunt-cucumberjs": "^0.5.2"
+    "grunt-contrib-connect": "^0.11.2",
+    "grunt-couch": "^1.4.0",
+    "grunt-cucumberjs": "^0.5.2",
+    "spawn-pouchdb-server": "^3.1.0"
   },
   "scripts": {
-    "test": "grunt test",
-    "start": "hoodie --www=. start -n"
+    "start": "grunt start",
+    "test": "grunt test"
   },
-  "dependencies": {
-    "hoodie-plugin-appconfig": "^2.0.1",
-    "hoodie-plugin-users": "^2.2.2",
-    "hoodie-server": "^3.1.1"
-  },
-  "hoodie": {
-    "plugins": [
-      "hoodie-plugin-users",
-      "hoodie-plugin-appconfig"
-    ]
-  }
+  "dependencies": {}
 }

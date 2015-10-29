@@ -6,7 +6,19 @@ require.config({
     "dot-checker": '/lib/graphviz-d3-renderer/dot-checker',
     "renderer": '/lib/graphviz-d3-renderer/renderer',
     "layout-worker": '/lib/graphviz-d3-renderer/layout-worker',
-    worker: '/lib/requirejs-web-workers/worker'
+    worker: '/lib/requirejs-web-workers/worker',
+    pouchdb: '/lib/pouchdb/pouchdb',
+    jquery: '/lib/jquery/jquery',
+    bootstrap: '/lib/bootstrap/bootstrap'
+  },
+  shim: {
+    jquery: {
+      exports: "$"
+    },
+    bootstrap: {
+      deps: ["jquery"],
+      exports: "$.fn.popover"
+    }
   },
   deps: ["app"]
 });

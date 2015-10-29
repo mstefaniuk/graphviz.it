@@ -4,18 +4,21 @@ body {
     overflow: hidden;
 }
 
-svg {
-    margin: 15px;
-}
-
-#editor {
+#editor, #graph {
     position: absolute;
-    top: 0;
+    top: 5em;
     bottom: 1.5em;
+}
+#editor {
     left: 0;
     width: 40%;
 }
-
+#graph {
+    left: 40%;
+    right: 0;
+    width: 60%;
+    overflow: auto;
+}
 #editor-bar {
     padding: 0;
     margin: 0;
@@ -26,22 +29,14 @@ svg {
     height: 1.5em;
 }
 
-#graph {
-    top: 0;
-    left: 40%;
-    position: absolute;
-    right: 0;
-    bottom: 1.5em;
-    width: 60%;
-    overflow: auto;
+svg {
+    margin: 15px;
 }
-
-path {
+svg path {
     fill: transparent;
     stroke: black;
 }
-
-text {
+svg text {
     text-anchor: middle;
     font-family: "Times-Roman", serif;
     font-size: 10pt;

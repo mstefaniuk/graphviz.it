@@ -27,12 +27,10 @@ module.exports = function (grunt) {
       app: ["app/lib/*", "!app/lib/viz.js", "app/js/parser"],
       bower: ["lib"]
     },
-    nodestatic: {
-      serve: {
+    connect: {
+      server: {
         options: {
-          port: 9999,
-          dev: true,
-          base: 'app'
+          base: "."
         }
       }
     },
@@ -43,13 +41,20 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.task.registerTask('pouchdb', 'Start of PouchDB.', function() {
+    var spawnPouchdbServer = require('spawn-pouchdb-server');
+
+    spawnPouchdbServer(function (error) {
+      console.log('PouchDB Server stared at localhost:5985/_utils');
+    })
+  });
+
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-nodestatic');
+  grunt.loadNpmTasks('grunt-contrib-connect');
 
   // Default task(s).
   grunt.registerTask('default', ['build']);
+  grunt.registerTask('start', ['pouchdb', 'connect:server:keepalive']);
   grunt.registerTask('build', ['clean:app', 'bower:app']);
 };
