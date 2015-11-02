@@ -41,6 +41,13 @@ define(['dot-checker', "ace/ace", "ace/lib/lang"],
       onChange: function(fn) {
         callback = fn;
         callback(editor.getValue());
+      },
+      contents: function(contents) {
+        if (contents!==undefined) {
+          editor.setValue(contents);
+        } else {
+          return editor.getValue();
+        }
       }
     }
   }

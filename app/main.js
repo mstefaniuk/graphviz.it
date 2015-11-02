@@ -9,7 +9,9 @@ require.config({
     worker: '/lib/requirejs-web-workers/worker',
     pouchdb: '/lib/pouchdb/pouchdb',
     jquery: '/lib/jquery/jquery',
-    bootstrap: '/lib/bootstrap/bootstrap'
+    bootstrap: '/lib/bootstrap/bootstrap',
+    "grapnel": '/lib/grapnel/grapnel.min',
+    config: '../config'
   },
   shim: {
     jquery: {
