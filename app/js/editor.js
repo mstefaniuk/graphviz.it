@@ -48,6 +48,12 @@ define(['dot-checker', "ace/ace", "ace/lib/lang"],
         } else {
           return editor.getValue();
         }
+      },
+      middleware: {
+        source: function(req, event, next) {
+          req.source = editor.getValue();
+          next();
+        }
       }
     }
   }

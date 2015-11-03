@@ -20,12 +20,23 @@ require(["editor", "jquery", "database", "renderer", "grapnel"],
     var router =  new Grapnel();
 
     router.add("/fiddle", function() {
-      editor.contents("");
-    }).add("/fiddle/save", db.save, db.update, function(req) {
+      editor.contents("digraph example {}");
+    }).add("/fiddle/save", editor.middleware.source, db.middleware.save, db.middleware.update, function(req) {
       router.navigate('/fiddle/' + req.params.fiddle);
-    }).add("/fiddle/:fiddle/:attachment?", db.load, db.source, function(req) {
+    }).add("/fiddle/:fiddle/:attachment?", db.middleware.load, db.middleware.source, function(req) {
       document = req.document;
       editor.contents(req.source);
-    }).add("fiddle/:fiddle/");
+    }).add("fiddle/:fiddle/update", editor.middleware.source, db.middleware.update, function(req) {
+      router.navigate("/fiddle/" + [req.params.fiddle, req.params.attachment].join('/'));
+    }).add("/*", function(req, e) {
+      if(!e.parent()) {
+        router.navigate('/fiddle');
+      }
+    });
+
+    router.on("match", function(stack, req) {
+      console.log("Matched!");
+    });
+    router.navigate("/fiddle");
   }
 );
