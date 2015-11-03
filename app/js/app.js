@@ -37,6 +37,5 @@ require(["editor", "jquery", "database", "renderer", "grapnel"],
     router.on("match", function(stack, req) {
       console.log("Matched!");
     });
-    router.navigate("/fiddle");
   }
 );

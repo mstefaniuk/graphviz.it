@@ -27,7 +27,7 @@ define(['pouchdb', 'config'], function(PouchDB, config) {
         db.get(req.params.fiddle).then(function(document) {
           req.document = document;
           if (!req.params.attachment) {
-            req.params.attachment = "" + currentAttachment(document._attachments);
+            req.params.attachment = "" + currentAttachment(document._attachments) + '.gv';
           }
           next();
         });
@@ -51,6 +51,7 @@ define(['pouchdb', 'config'], function(PouchDB, config) {
       current = parseInt(attachment.split(".")[0]);
       max = current > max ? current : max;
     }
+    return max;
   }
 
   function generateShurl(length) {
