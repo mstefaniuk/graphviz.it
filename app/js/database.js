@@ -16,6 +16,11 @@ define(['pouchdb', 'config'], function(PouchDB, config) {
             next();
           });
       },
+      extract: function(req, event, next) {
+        req.params.attachment = "" + (currentAttachment(req.document._attachments)+1);
+        req.revision = req.document._rev;
+        next();
+      },
       update: function(req, event, next) {
         var attachment = new Blob([req.source], {type: 'text/plain'});
         db.putAttachment(req.params.fiddle, req.params.attachment + '.gv', req.revision, attachment, 'text/plain')
@@ -27,13 +32,13 @@ define(['pouchdb', 'config'], function(PouchDB, config) {
         db.get(req.params.fiddle).then(function(document) {
           req.document = document;
           if (!req.params.attachment) {
-            req.params.attachment = "" + currentAttachment(document._attachments) + '.gv';
+            req.params.attachment = "" + currentAttachment(document._attachments);
           }
           next();
         });
       },
       source: function(req, event, next) {
-        db.getAttachment(req.document._id, req.params.attachment).then(function (blob) {
+        db.getAttachment(req.document._id, req.params.attachment + '.gv').then(function (blob) {
           var reader = new FileReader();
           reader.addEventListener("loadend", function() {
             req.source = this.result;
