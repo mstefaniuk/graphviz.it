@@ -18,6 +18,7 @@ define(['pouchdb', 'config'], function(PouchDB, config) {
       },
       extract: function(req, event, next) {
         req.params.attachment = "" + (currentAttachment(req.document._attachments)+1);
+        req.params.fiddle = req.document._id;
         req.revision = req.document._rev;
         next();
       },
