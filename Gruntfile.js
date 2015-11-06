@@ -42,10 +42,20 @@ module.exports = function (grunt) {
   });
 
   grunt.task.registerTask('pouchdb', 'Start of PouchDB.', function() {
+    this.async();
     var spawnPouchdbServer = require('spawn-pouchdb-server');
 
-    spawnPouchdbServer(function (error) {
-      console.log('PouchDB Server stared at localhost:5985/_utils');
+    spawnPouchdbServer({
+      port: 5984,
+      backend: false,
+      log: {
+        file: false
+      },
+      config: {
+        file: false
+      }
+    }, function (error) {
+      console.log('Started PouchDB server on http://localhost:5984');
     })
   });
 
@@ -55,6 +65,6 @@ module.exports = function (grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['build']);
-  grunt.registerTask('start', ['pouchdb', 'connect:server:keepalive']);
+  grunt.registerTask('start', ['connect:server', 'pouchdb']);
   grunt.registerTask('build', ['clean:app', 'bower:app']);
 };
