@@ -25,7 +25,7 @@ require(["editor", "jquery", "database", "renderer", "grapnel"],
 
     var router =  new Grapnel();
     router.add("/", function() {
-      editor.contents("digraph example {}");
+      //editor.contents("digraph example {}");
       $("#save").text("Save diagram").attr("href", "#/save");
     }).add("/save", editor.middleware.source, db.middleware.save, db.middleware.update, function(req) {
       router.navigate('/' + req.params.fiddle);
