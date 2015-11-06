@@ -39,6 +39,12 @@ module.exports = function (grunt) {
         dest: 'dist/config.js'
       }
     },
+    watch: {
+      app: {
+        files: ['app/**'],
+        tasks: ['copy:dist']
+      }
+    },
     connect: {
       server: {
         options: {
@@ -75,6 +81,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.registerTask('default', ['build']);
   grunt.registerTask('start', ['connect:server', 'pouchdb']);

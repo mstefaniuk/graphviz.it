@@ -29,6 +29,13 @@ body {
     height: 1.5em;
 }
 
+body.save li.nav-item.update {
+    display: none;
+}
+body.update li.nav-item.save {
+    display: none;
+}
+
 svg {
     margin: 15px;
 }

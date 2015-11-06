@@ -26,7 +26,6 @@ require(["editor", "jquery", "database", "renderer", "grapnel"],
     var router =  new Grapnel();
     router.add("/", function() {
       //editor.contents("digraph example {}");
-      $("#save").text("Save diagram").attr("href", "#/save");
     }).add("/save", editor.middleware.source, db.middleware.save, db.middleware.update, function(req) {
       router.navigate('/' + req.params.fiddle);
     }).add("/update", middleware.document, editor.middleware.source, db.middleware.extract, db.middleware.update, function(req) {
@@ -34,15 +33,16 @@ require(["editor", "jquery", "database", "renderer", "grapnel"],
     }).add("/:fiddle([a-zA-Z]{8})/:attachment?", db.middleware.load, db.middleware.source, function(req) {
       document = req.document;
       editor.contents(req.source);
-      $("#save").text("Update diagram").attr("href", "#/update");
-    }).add("/*", function(req, e) {
-      if(!e.parent()) {
-        router.navigate('/');
-      }
+    //}).add("/*", function(req, e) {
+    //  if(!e.parent()) {
+    //    router.navigate('/');
+    //  }
     });
 
-    router.on("navigate", function(stack, req) {
-      console.log("Matched!");
+    router.on("match", function(stack, req) {
+      var clazz = req.keys.length>0 ? req.keys[0].name : stack.route.replace('/','');
+      clazz = clazz || 'home';
+      $('body').removeClass().addClass(clazz);
     });
   }
 );
