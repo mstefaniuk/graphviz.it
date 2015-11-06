@@ -1,16 +1,16 @@
 require.config({
-  baseUrl: "app/js",
+  baseUrl: "javascript",
   paths: {
-    d3: '/lib/d3/d3',
-    ace: '/lib/ace',
-    "dot-checker": '/lib/graphviz-d3-renderer/dot-checker',
-    "renderer": '/lib/graphviz-d3-renderer/renderer',
-    "layout-worker": '/lib/graphviz-d3-renderer/layout-worker',
-    worker: '/lib/requirejs-web-workers/worker',
-    pouchdb: '/lib/pouchdb/pouchdb',
-    jquery: '/lib/jquery/jquery',
-    bootstrap: '/lib/bootstrap/bootstrap',
-    "grapnel": '/lib/grapnel/grapnel.min',
+    d3: '../vendor/d3/d3',
+    ace: '../vendor/ace',
+    "dot-checker": '../vendor/graphviz-d3-renderer/dot-checker',
+    "renderer": '../vendor/graphviz-d3-renderer/renderer',
+    "layout-worker": '../vendor/graphviz-d3-renderer/layout-worker',
+    worker: '../vendor/requirejs-web-workers/worker',
+    pouchdb: '../vendor/pouchdb/pouchdb',
+    jquery: '../vendor/jquery/jquery',
+    bootstrap: '../vendor/bootstrap/bootstrap',
+    "grapnel": '../vendor/grapnel/grapnel.min',
     config: '../config'
   },
   shim: {

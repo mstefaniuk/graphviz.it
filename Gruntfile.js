@@ -12,25 +12,37 @@ module.exports = function (grunt) {
         jshintrc: '.jshintrc'
       }
     },
+    clean: {
+      dist: ["dist"]
+    },
     bower: {
-      app: {
+      dist: {
         options: {
           layout: "byType",
           cleanBowerDir: true,
           bowerOptions: {
             production: true
-          }
+          },
+          targetDir: "dist/vendor"
         }
       }
     },
-    clean: {
-      app: ["app/lib/*", "!app/lib/viz.js", "app/js/parser"],
-      bower: ["lib"]
+    copy: {
+      dist: {
+        expand: true,
+        cwd: 'app',
+        src: ['**'],
+        dest: 'dist/'
+      },
+      development: {
+        src: 'env/development.js',
+        dest: 'dist/config.js'
+      }
     },
     connect: {
       server: {
         options: {
-          base: "."
+          base: "dist"
         }
       }
     },
@@ -62,9 +74,11 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
-  // Default task(s).
   grunt.registerTask('default', ['build']);
   grunt.registerTask('start', ['connect:server', 'pouchdb']);
-  grunt.registerTask('build', ['clean:app', 'bower:app']);
+  grunt.registerTask('build', ['clean', 'copy:dist', 'bower']);
+  grunt.registerTask('development', ['copy:development']);
+  grunt.registerTask('production', ['copy:production']);
 };
