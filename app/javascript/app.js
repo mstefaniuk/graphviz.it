@@ -33,16 +33,14 @@ require(["editor", "jquery", "database", "renderer", "grapnel"],
     }).add("/:fiddle([a-zA-Z]{8})/:attachment?", db.middleware.load, db.middleware.source, function(req) {
       document = req.document;
       editor.contents(req.source);
-    //}).add("/*", function(req, e) {
-    //  if(!e.parent()) {
-    //    router.navigate('/');
-    //  }
-    });
-
-    router.on("match", function(stack, req) {
-      var clazz = req.keys.length>0 ? req.keys[0].name : stack.route.replace('/','');
-      clazz = clazz || 'home';
-      $('body').removeClass().addClass(clazz);
+    }).add("*", function(req, e) {
+      if(!e.parent()) {
+        router.navigate('/');
+      } else {
+        var clazz = e.previousState.req.keys.length>0 ? e.previousState.req.keys[0].name : e.previousState.route.replace('/','');
+        clazz = clazz || 'home';
+        $('body').removeClass().addClass(clazz);
+      }
     });
   }
 );

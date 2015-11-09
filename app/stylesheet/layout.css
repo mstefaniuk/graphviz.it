@@ -29,10 +29,14 @@ body {
     height: 1.5em;
 }
 
-body.save li.nav-item.update {
+body.save li.nav-item.update,
+body.home li.nav-item.update
+{
     display: none;
 }
-body.update li.nav-item.save {
+body.update li.nav-item.save,
+body.fiddle li.nav-item.save
+{
     display: none;
 }
 
