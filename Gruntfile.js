@@ -37,6 +37,21 @@ module.exports = function (grunt) {
       development: {
         src: 'env/development.js',
         dest: 'dist/config.js'
+      },
+      production: {
+        src: 'env/production.js',
+        dest: 'dist/config.js'
+      }
+    },
+    'gh-pages': {
+      options: {
+        base: 'build'
+      },
+      'gh-pages': {
+        options: {
+          push: false
+        },
+        src: ['**']
       }
     },
     watch: {
