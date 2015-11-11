@@ -6,27 +6,28 @@ body {
 
 #editor, #graph {
     position: absolute;
-    top: 5em;
-    bottom: 1.5em;
+    top: 4em;
 }
 #editor {
     left: 0;
     width: 40%;
+    bottom: 6em;
 }
 #graph {
     left: 40%;
     right: 0;
     width: 60%;
     overflow: auto;
+    bottom: 4em;
 }
 #editor-bar {
     padding: 0;
     margin: 0;
     position: absolute;
     left: 0;
-    bottom: 0;
+    bottom: 4em;
     width: 40%;
-    height: 1.5em;
+    height: 1em;
 }
 
 svg {

@@ -1,22 +1,22 @@
-body.preload li.nav-item.update,
-body.save li.nav-item.update,
-body.home li.nav-item.update
+body.preload #update,
+body.save #update,
+body.home #update
 {
     display: none;
 }
-body.preload li.nav-item.save,
-body.save li.nav-item.save,
-body.home li.nav-item.save
+body.preload #save,
+body.save #save,
+body.home #save
 {
     display: block;
 }
-body.update li.nav-item.save,
-body.fiddle li.nav-item.save
+body.update #save,
+body.fiddle #save
 {
     display: none;
 }
-body.update li.nav-item.update,
-body.fiddle li.nav-item.update
+body.update #update,
+body.fiddle #update
 {
     display: block;
 }
