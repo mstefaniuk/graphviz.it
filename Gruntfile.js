@@ -32,7 +32,12 @@ module.exports = function (grunt) {
         expand: true,
         cwd: 'app',
         src: ['**'],
-        dest: 'dist/'
+        dest: 'dist/',
+        options: {
+          process: function(content) {
+            return grunt.template.process(content);
+          }
+        }
       },
       development: {
         src: 'env/development.js',
@@ -44,11 +49,9 @@ module.exports = function (grunt) {
       }
     },
     'gh-pages': {
-      options: {
-        base: 'build'
-      },
       'gh-pages': {
         options: {
+          base: 'build',
           push: false
         },
         src: ['**']
@@ -103,4 +106,5 @@ module.exports = function (grunt) {
   grunt.registerTask('build', ['clean', 'copy:dist', 'bower']);
   grunt.registerTask('development', ['copy:development']);
   grunt.registerTask('production', ['copy:production']);
+  grunt.registerTask('publish', ['build', 'production', 'gh-pages']);
 };
