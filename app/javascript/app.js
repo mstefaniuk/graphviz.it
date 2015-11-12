@@ -1,5 +1,5 @@
-require(["editor", "jquery", "database", "renderer", "grapnel"],
-  function (editor, $, db, renderer, Grapnel) {
+require(["editor", "jquery", "database", "renderer", "grapnel", "analytics"],
+  function (editor, $, db, renderer, Grapnel, ga) {
 
     var bar = $('#editor-bar');
 
@@ -40,6 +40,8 @@ require(["editor", "jquery", "database", "renderer", "grapnel"],
         var clazz = e.previousState.req.keys.length>0 ? e.previousState.req.keys[0].name : e.previousState.route.replace('/','');
         clazz = clazz || 'home';
         $('body').removeClass().addClass(clazz);
+        ga('send', 'pageview', e.value);
+        e.stopPropagation();
       }
     });
   }
