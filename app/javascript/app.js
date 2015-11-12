@@ -1,5 +1,5 @@
-require(["editor", "jquery", "database", "renderer", "grapnel", "analytics"],
-  function (editor, $, db, renderer, Grapnel, ga) {
+require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "gallery"],
+  function (editor, $, db, renderer, Grapnel, ga, gallery) {
 
     var bar = $('#editor-bar');
 
@@ -30,6 +30,10 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics"],
       router.navigate('/' + req.params.fiddle);
     }).add("/update", middleware.document, editor.middleware.source, db.middleware.extract, db.middleware.update, function(req) {
       router.navigate("/" + [req.params.fiddle, req.params.attachment].join('/'));
+    }).add("/gallery", function() {
+      router.navigate('/gallery/' + gallery.random());
+    }).add("/gallery/:diagram", gallery.middleware.load, function(req) {
+      editor.contents(req.source);
     }).add("/:fiddle([a-zA-Z]{8})/:attachment?", db.middleware.load, db.middleware.source, function(req) {
       document = req.document;
       editor.contents(req.source);
