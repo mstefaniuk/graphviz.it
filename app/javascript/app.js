@@ -25,7 +25,7 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
 
     var router =  new Grapnel();
     router.add("/", function() {
-      editor.contents("digraph G {\n\t\n}");
+      editor.contents("digraph G {\n  ex -> am -> ple\n}");
     }).add("/save", editor.middleware.source, db.middleware.save, db.middleware.update, function(req) {
       router.navigate('/' + req.params.fiddle);
     }).add("/update", middleware.document, editor.middleware.source, db.middleware.extract, db.middleware.update, function(req) {

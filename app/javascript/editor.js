@@ -44,7 +44,9 @@ define(['dot-checker', "ace/ace", "ace/lib/lang"],
       },
       contents: function(contents) {
         if (contents!==undefined) {
-          editor.setValue(contents);
+          var pos = editor.getCursorPosition();
+          editor.setValue(contents, -1);
+          editor.moveCursorToPosition(pos);
         } else {
           return editor.getValue();
         }

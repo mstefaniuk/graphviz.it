@@ -19,18 +19,15 @@
     </span>
   </div>
 </nav>
-<div id="editor">digraph G {
-  ex -> am -> ple
-}
-</div>
+<div id="editor"></div>
 <div id="editor-bar" class="ace_status-indicator"></div>
 <div id="graph"></div>
 <nav class="navbar navbar-fixed-bottom navbar-inverse">
-  <span class="pull-right">
-    <p class="navbar-text">Follow on <a href="https://twitter.com/graphvizit" class="navbar-link">Twitter</a></p>
-    <p class="navbar-text">File an issue on <a href="https://github.com/mstefaniuk/graphviz.it/issues" class="navbar-link">Github</a></p>
-    <p class="navbar-text">Send an <a href="mailto:contact@graphviz.it" class="navbar-link">email</a></p>
-  </span>
+  <p class="navbar-text">Follow on <a href="https://twitter.com/graphvizit" class="navbar-link">Twitter</a></p>
+  <p class="navbar-text">File an <a href="https://github.com/mstefaniuk/graphviz.it/issues" class="navbar-link">issue on Github</a></p>
+  <p class="navbar-text">Send an <a href="mailto:contact@graphviz.it" class="navbar-link">email</a></p>
+  <p class="navbar-text pull-right"><a href="https://github.com/mstefaniuk/graphviz.it/issues" class="navbar-link">Page</a> v<%= pkg.version %>
+    / <a href="https://github.com/mstefaniuk/graph-viz-d3-js" class="navbar-link">Renderer</a> v<%= bwr.dependencies['graphviz-d3-renderer'] %></p>
 </nav>
 
 <script src="vendor/requirejs/require.js" data-main="main.js"></script>
