@@ -5,7 +5,7 @@ define(['pouchdb', 'config'], function(PouchDB, config) {
   return {
     middleware: {
       save: function(req, event, next) {
-        var document = {
+        var document = req.document || {
           type: "fiddle"
         };
         db.put(document, generateShurl(8))

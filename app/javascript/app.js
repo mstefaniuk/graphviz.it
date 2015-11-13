@@ -21,6 +21,12 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
       }
     };
 
+    var transitions = {
+      home: "Save",
+      fiddle: "Update",
+      gallery: "Fork"
+    };
+
     var document;
 
     var router =  new Grapnel();
@@ -28,11 +34,14 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
       editor.contents("digraph G {\n  ex -> am -> ple\n}");
     }).add("/save", editor.middleware.source, db.middleware.save, db.middleware.update, function(req) {
       router.navigate('/' + req.params.fiddle);
+    }).add("/fork", middleware.document, editor.middleware.source, db.middleware.save, db.middleware.update, function(req) {
+      router.navigate('/' + req.params.fiddle);
     }).add("/update", middleware.document, editor.middleware.source, db.middleware.extract, db.middleware.update, function(req) {
       router.navigate("/" + [req.params.fiddle, req.params.attachment].join('/'));
     }).add("/gallery", function() {
       router.navigate('/gallery/' + gallery.random());
-    }).add("/gallery/:diagram", gallery.middleware.load, function(req) {
+    }).add("/gallery/:gallery", gallery.middleware.load, function(req) {
+      document = req.document;
       editor.contents(req.source);
     }).add("/:fiddle([a-zA-Z]{8})/:attachment?", db.middleware.load, db.middleware.source, function(req) {
       document = req.document;
@@ -44,6 +53,10 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
         var clazz = e.previousState.req.keys.length>0 ? e.previousState.req.keys[0].name : e.previousState.route.replace('/','');
         clazz = clazz || 'home';
         $('body').removeClass().addClass(clazz);
+        var state = transitions[clazz];
+        if (state!=undefined) {
+          $('#button').text(state + " diagram").attr("href", "#/" + state.toLowerCase());
+        }
         ga('send', 'pageview', e.value);
         e.stopPropagation();
       }
