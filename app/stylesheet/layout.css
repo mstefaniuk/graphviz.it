@@ -4,7 +4,7 @@ body {
     overflow: hidden;
 }
 
-#editor, #graph {
+#editor, #graph, #examples {
     position: absolute;
     top: 4em;
 }
@@ -28,6 +28,13 @@ body {
     bottom: 4em;
     width: 40%;
     height: 1em;
+}
+body.gallery #editor {
+    top: 8em;
+}
+body.gallery #examples {
+    top: 4em;
+    width: 40%;
 }
 
 svg {

@@ -1,4 +1,4 @@
-require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "gallery"],
+require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "gallery", "bootstrap"],
   function (editor, $, db, renderer, Grapnel, ga, gallery) {
 
     var bar = $('#editor-bar');
@@ -22,6 +22,7 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
     };
 
     var transitions = {
+      new: "Save",
       home: "Save",
       fiddle: "Update",
       gallery: "Fork"
@@ -32,6 +33,8 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
     var router =  new Grapnel();
     router.add("/", function() {
       editor.contents("digraph G {\n  ex -> am -> ple\n}");
+    }).add("/new", function() {
+      editor.contents("digraph G {\n\t\n}");
     }).add("/save", editor.middleware.source, db.middleware.save, db.middleware.update, function(req) {
       router.navigate('/' + req.params.fiddle);
     }).add("/fork", middleware.document, editor.middleware.source, db.middleware.save, db.middleware.update, function(req) {
@@ -39,6 +42,7 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
     }).add("/update", middleware.document, editor.middleware.source, db.middleware.extract, db.middleware.update, function(req) {
       router.navigate("/" + [req.params.fiddle, req.params.attachment].join('/'));
     }).add("/gallery", function() {
+      $('#examples select').val('abstract.gv');
       router.navigate('/gallery/' + gallery.random());
     }).add("/gallery/:gallery", gallery.middleware.load, function(req) {
       document = req.document;
@@ -60,6 +64,10 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
         ga('send', 'pageview', e.value);
         e.stopPropagation();
       }
+    });
+
+    $('#examples select').on('change', function() {
+      router.navigate("/gallery/" + this.value);
     });
   }
 );
