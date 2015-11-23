@@ -12,7 +12,10 @@ require.config({
     bootstrap: '../vendor/bootstrap/bootstrap',
     grapnel: '../vendor/grapnel/grapnel.min',
     config: '../config',
-    ga: '//www.google-analytics.com/analytics'
+    ga: [
+      '//www.google-analytics.com/analytics',
+      'gamock'
+    ]
   },
   shim: {
     jquery: {
