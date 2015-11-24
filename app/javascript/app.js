@@ -30,6 +30,11 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
 
     var document;
 
+    gallery.resources.forEach(function(e) {
+      $("#examples select")
+        .append("<option>" + e + "</option>");
+    });
+
     var router =  new Grapnel();
     router.add("/", function() {
       editor.contents("digraph G {\n  ex -> am -> ple\n}");

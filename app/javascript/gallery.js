@@ -1,4 +1,5 @@
 define(['jquery'], function($) {
+
   var resources = [
     "abstract.gv",
     "alf.gv",
@@ -73,6 +74,7 @@ define(['jquery'], function($) {
     },
     random: function() {
       return resources[Math.floor(Math.random() * resources.length)];
-    }
+    },
+    resources: resources
   }
 });
