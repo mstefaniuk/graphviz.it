@@ -7,6 +7,7 @@
   <meta name="keywords" content="graphviz, fiddle, editor, interactive, share"/>
   <link rel="stylesheet" type="text/css" href="stylesheet/layout.css" media="all"/>
   <link rel="stylesheet" type="text/css" href="vendor/bootstrap/bootstrap.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 <body class="preload">
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -30,11 +31,19 @@
 <div id="editor-bar" class="ace_status-indicator"></div>
 <div id="graph"></div>
 <nav class="navbar navbar-fixed-bottom navbar-inverse">
-  <p class="navbar-text">Follow on <a href="https://twitter.com/graphvizit" class="navbar-link">Twitter</a></p>
-  <p class="navbar-text">File an <a href="https://github.com/mstefaniuk/graphviz.it/issues" class="navbar-link">issue on Github</a></p>
-  <p class="navbar-text">Send an <a href="mailto:contact@graphviz.it" class="navbar-link">email</a></p>
-  <p class="navbar-text pull-right"><a href="https://github.com/mstefaniuk/graphviz.it/issues" class="navbar-link">Page</a> v<%= pkg.version %>
-    / <a href="https://github.com/mstefaniuk/graph-viz-d3-js" class="navbar-link">Renderer</a> v<%= bwr.dependencies['graphviz-d3-renderer'] %></p>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <p class="navbar-text"><a href="https://twitter.com/graphvizit" class="navbar-link"><i class="fa fa-twitter fa-lg"></i> Follow</a></p>
+        <p class="navbar-text"><a href="https://github.com/mstefaniuk/graphviz.it/issues" class="navbar-link"><i class="fa fa-github fa-lg"></i> Support</a></p>
+        <p class="navbar-text"><a href="mailto:contact@graphviz.it" class="navbar-link"><i class="fa fa-envelope-o fa-lg"></i> Contact</a></p>
+      </div>
+      <div class="col-md-4">
+        <p class="navbar-text pull-right"><a href="https://github.com/mstefaniuk/graphviz.it" class="navbar-link">Page</a> v<%= pkg.version %>
+          / <a href="https://github.com/mstefaniuk/graph-viz-d3-js" class="navbar-link">Renderer</a> v<%= bwr.dependencies['graphviz-d3-renderer'] %></p>
+      </div>
+    </div>
+  </div>
 </nav>
 
 <script src="vendor/requirejs/require.js" data-main="main.js"></script>
