@@ -10,17 +10,24 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 <body class="preload">
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top navbar-collapse">
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-2"><a href="#/"><span class="navbar-brand"><em style="font-weight: bold">Graphviz it!</em></span></a></div>
-      <div class="col-md-8">
-        <ul class="nav navbar-nav">
-          <li><a href="#/new">New diagram</a></li>
-          <li><a href="#/gallery">Gallery</a></li>
-        </ul>
-      </div>
-      <div class="col-md-2 text-center"><a id="button" class="btn btn-primary navbar-btn" href="#/">*</a></div>
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="#/"><span class="navbar-brand"><em style="font-weight: bold">Graphviz it!</em></span></a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="#/new">New diagram</a></li>
+        <li><a href="#/gallery">Gallery</a></li>
+      </ul>
+      <a id="button" class="btn btn-primary navbar-btn navbar-right" href="#/">*</a>
     </div>
   </div>
 </nav>
@@ -34,11 +41,13 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-8">
-        <p class="navbar-text"><a href="https://twitter.com/graphvizit" class="navbar-link"><i class="fa fa-twitter fa-lg"></i> Follow</a></p>
-        <p class="navbar-text"><a href="https://github.com/mstefaniuk/graphviz.it/issues" class="navbar-link"><i class="fa fa-github fa-lg"></i> Support</a></p>
-        <p class="navbar-text"><a href="mailto:contact@graphviz.it" class="navbar-link"><i class="fa fa-envelope-o fa-lg"></i> Contact</a></p>
+        <ul class="list-inline">
+          <li class="navbar-text"><a href="https://twitter.com/graphvizit" class="navbar-link"><i class="fa fa-twitter fa-lg"></i> Follow</a></li>
+          <li class="navbar-text"><a href="https://github.com/mstefaniuk/graphviz.it/issues" class="navbar-link"><i class="fa fa-github fa-lg"></i> Support</a></li>
+          <li class="navbar-text"><a href="mailto:contact@graphviz.it" class="navbar-link"><i class="fa fa-envelope-o fa-lg"></i> Contact</a></li>
+        </ul>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4 hidden-xs">
         <p class="navbar-text pull-right"><a href="https://github.com/mstefaniuk/graphviz.it" class="navbar-link">Page</a> v<%= pkg.version %>
           / <a href="https://github.com/mstefaniuk/graph-viz-d3-js" class="navbar-link">Renderer</a> v<%= bwr.dependencies['graphviz-d3-renderer'] %></p>
       </div>
