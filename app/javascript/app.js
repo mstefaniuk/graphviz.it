@@ -18,6 +18,13 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
       document: function(req, event, next) {
         req.document = document;
         next();
+      },
+      image: function(req, event, next) {
+        var img = renderer.getImage();
+        img.onload = function () {
+          req.image = img.src;
+          next();
+        }
       }
     };
 
@@ -44,8 +51,9 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
       router.navigate('/' + req.params.fiddle);
     }).add("/fork", middleware.document, editor.middleware.source, db.middleware.save, db.middleware.update, function(req) {
       router.navigate('/' + req.params.fiddle);
-    }).add("/update", middleware.document, editor.middleware.source, db.middleware.extract, db.middleware.update, function(req) {
-      router.navigate("/" + [req.params.fiddle, req.params.attachment].join('/'));
+    }).add("/update", middleware.document, editor.middleware.source, db.middleware.extract, db.middleware.update, middleware.image, db.middleware.image,
+      function(req) {
+        router.navigate("/" + [req.params.fiddle, req.params.attachment].join('/'));
     }).add("/gallery", function() {
       router.navigate('/gallery/' + gallery.random());
     }).add("/gallery/:gallery", gallery.middleware.load, function(req) {

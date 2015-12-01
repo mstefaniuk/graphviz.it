@@ -25,13 +25,14 @@ define(['pouchdb', 'config'], function (PouchDB, config) {
       update: function (req, event, next) {
         var attachment = new Blob([req.source], {type: 'text/plain'});
         db.putAttachment(req.params.fiddle, req.params.attachment + '.gv', req.revision, attachment, 'text/plain')
-          .then(function () {
+          .then(function (result) {
+            req.revision = result.rev;
             next();
           });
       },
-      picture: function (req, event, next) {
-        var picture = dataURItoBlob(req.picture);
-        db.putAttachment(req.params.fiddle, req.params.attachment + '.png', req.revision, attachment, 'image/png')
+      image: function (req, event, next) {
+        var image = dataURItoBlob(req.image);
+        db.putAttachment(req.params.fiddle, 'image.png', req.revision, image, 'image/png')
           .then(function () {
             next();
           });
