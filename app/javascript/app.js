@@ -72,7 +72,7 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
         $('body').removeClass().addClass(clazz);
         var state = transitions[clazz];
         if (state!=undefined) {
-          $('#button').text(state + " diagram").attr("href", "#/" + state.toLowerCase());
+          $('#button span').text(state + " diagram").attr("href", "#/" + state.toLowerCase());
         }
         ga('send', 'pageview', e.value);
         e.stopPropagation();
