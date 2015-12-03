@@ -20,10 +20,13 @@
     },
     "requirejs-web-workers": {
       "": "src/*"
+    },
+    "bootstrap": {
+      "": "dist"
     }
   },
   "dependencies": {
-    "graphviz-d3-renderer": "0.9.12",
+    "graphviz-d3-renderer": "0.9.13",
     "ace": "1.1.8",
     "pouchdb": "~5.0.0",
     "bootstrap": "3.3.2",

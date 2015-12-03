@@ -9,7 +9,7 @@ require.config({
     worker: '../vendor/requirejs-web-workers/worker',
     pouchdb: '../vendor/pouchdb/pouchdb',
     jquery: '../vendor/jquery/jquery',
-    bootstrap: '../vendor/bootstrap/bootstrap',
+    bootstrap: '../vendor/bootstrap/js/bootstrap',
     grapnel: '../vendor/grapnel/grapnel.min',
     config: '../config',
     ga: [
