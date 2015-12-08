@@ -26,12 +26,12 @@
       <form class="navbar-form navbar-right">
         <div class="btn-group">
           <button type="submit" id="button" class="btn btn-primary"><i class="glyphicon glyphicon-cloud-upload"></i> <span>*</span></button>
-          <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <ul class="dropdown-menu">
-            <li><a href="#">Save locally as PNG</a></li>
+            <li><a id="savePNG">Save locally as PNG</a></li>
             <li><a href="#"></a></li>
           </ul>
         </div>
@@ -49,17 +49,20 @@
 <div id="editor"></div>
 <div id="editor-bar" class="ace_status-indicator"></div>
 <div id="graph"></div>
+<a id="download" href="" download="diagram.png"></a>
 <nav class="navbar navbar-fixed-bottom navbar-inverse">
-  <ul class="list-inline navbar-left">
-    <li class="navbar-text"><a href="https://twitter.com/graphvizit" class="navbar-link"><i class="fa fa-twitter fa-lg"></i> Follow</a></li>
-    <li class="navbar-text"><a href="https://github.com/mstefaniuk/graphviz.it/issues" class="navbar-link"><i class="fa fa-github fa-lg"></i> Support</a></li>
-    <li class="navbar-text"><a href="mailto:contact@graphviz.it" class="navbar-link"><i class="fa fa-envelope-o fa-lg"></i> Email</a></li>
-    <li class="navbar-text"><a href="https://gitter.im/mstefaniuk/graphviz.it" class="navbar-link"><i class="fa fa-comment fa-lg"></i> Chat</a></li>
+  <div class="container-fluid">
+  <ul class="nav navbar-nav navbar-left">
+    <li><a href="https://twitter.com/graphvizit"><i class="fa fa-twitter fa-lg"></i> Follow</a></li>
+    <li><a href="https://github.com/mstefaniuk/graphviz.it/issues"><i class="fa fa-github fa-lg"></i> Support</a></li>
+    <li><a href="mailto:contact@graphviz.it"><i class="fa fa-envelope-o fa-lg"></i> Email</a></li>
+    <li><a href="https://gitter.im/mstefaniuk/graphviz.it"><i class="fa fa-comment fa-lg"></i> Chat</a></li>
   </ul>
   <div class="navbar-right hidden-xs">
     <p class="navbar-text pull-right"><a href="https://github.com/mstefaniuk/graphviz.it" class="navbar-link">Page</a> v<%= pkg.version %>
       / <a href="https://github.com/mstefaniuk/graph-viz-d3-js" class="navbar-link">Renderer</a> v<%= bwr.dependencies['graphviz-d3-renderer'] %></p>
   </div>
+    </div>
 </nav>
 
 <script src="vendor/requirejs/require.js" data-main="main.js"></script>
