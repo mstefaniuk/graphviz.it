@@ -60,8 +60,7 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
       router.navigate('/' + req.params.fiddle);
     }).add("/fork", middleware.document, editor.middleware.source, db.middleware.save, db.middleware.update, function(req) {
       router.navigate('/' + req.params.fiddle);
-    }).add("/update", middleware.document, editor.middleware.source, db.middleware.extract, db.middleware.update, middleware.image, db.middleware.image,
-      function(req) {
+    }).add("/update", middleware.document, editor.middleware.source, db.middleware.extract, db.middleware.update, function(req) {
         router.navigate("/" + [req.params.fiddle, req.params.attachment].join('/'));
     }).add("/gallery", function() {
       router.navigate('/gallery/' + gallery.random());
@@ -81,7 +80,8 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
         $('body').removeClass().addClass(clazz);
         var state = transitions[clazz];
         if (state!=undefined) {
-          $('#button span').text(state + " diagram").attr("href", "#/" + state.toLowerCase());
+          $('#button').attr("href", "#/" + state.toLowerCase());
+          $('#button span').text(state + " diagram");
         }
         ga('send', 'pageview', e.value);
         e.stopPropagation();
