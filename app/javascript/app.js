@@ -42,6 +42,15 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
         .append("<option>" + e + "</option>");
     });
 
+    $("#savePNG").click(function(event) {
+      var img = renderer.getImage();
+      img.onload = function () {
+        $("#download").attr("href", img.src);
+        $("#download")[0].click();
+      };
+      event.preventDefault();
+    });
+
     var router =  new Grapnel();
     router.add("/", function() {
       editor.contents("digraph G {\n  ex -> am -> ple\n}");
