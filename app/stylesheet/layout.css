@@ -36,16 +36,13 @@ body.gallery #examples {
     top: 4em;
     width: 40%;
 }
+body.fiddle #savePNGonLine {
+    display: block;
+}
+body:not(.fiddle) #savePNGonLine {
+    display: none;
+}
 
 svg {
     margin: 15px;
-}
-svg path {
-    fill: transparent;
-    stroke: black;
-}
-svg text {
-    text-anchor: middle;
-    font-family: "Times-Roman", serif;
-    font-size: 10pt;
 }
