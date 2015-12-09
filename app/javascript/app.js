@@ -13,21 +13,6 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
       bar.text("Ok.");
     });
 
-
-    var middleware = {
-      document: function(req, event, next) {
-        req.document = document;
-        next();
-      },
-      image: function(req, event, next) {
-        var img = renderer.getImage();
-        img.onload = function () {
-          req.image = img.src;
-          next();
-        }
-      }
-    };
-
     var transitions = {
       new: "Save",
       home: "Save",
@@ -35,18 +20,24 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
       gallery: "Fork"
     };
 
-    var document;
-
     gallery.resources.forEach(function(e) {
       $("#examples select")
         .append("<option>" + e + "</option>");
     });
 
-    $("#savePNG").click(function(event) {
+    $("#savePNGonDisk a").click(function(event) {
       var img = renderer.getImage();
       img.onload = function () {
         $("#download").attr("href", img.src);
         $("#download")[0].click();
+      };
+      event.preventDefault();
+    });
+
+    $("#savePNGonLine a").click(function(event) {
+      var img = renderer.getImage();
+      img.onload = function () {
+        db.savePNG(img.src);
       };
       event.preventDefault();
     });
@@ -58,9 +49,9 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
       editor.contents("digraph G {\n\t\n}");
     }).add("/save", editor.middleware.source, db.middleware.save, db.middleware.update, function(req) {
       router.navigate('/' + req.params.fiddle);
-    }).add("/fork", middleware.document, editor.middleware.source, db.middleware.save, db.middleware.update, function(req) {
+    }).add("/fork", editor.middleware.source, db.middleware.save, db.middleware.update, function(req) {
       router.navigate('/' + req.params.fiddle);
-    }).add("/update", middleware.document, editor.middleware.source, db.middleware.extract, db.middleware.update, function(req) {
+    }).add("/update", editor.middleware.source, db.middleware.update, function(req) {
         router.navigate("/" + [req.params.fiddle, req.params.attachment].join('/'));
     }).add("/gallery", function() {
       router.navigate('/gallery/' + gallery.random());
