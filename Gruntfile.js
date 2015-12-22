@@ -49,6 +49,20 @@ module.exports = function (grunt) {
         dest: 'dist/config.js'
       }
     },
+    'couch-compile': {
+      main: {
+        files: {
+          '.grunt/couchdb.json': 'couchdb/design-img.json'
+        }
+      }
+    },
+    'couch-push': {
+      localhost: {
+        files: {
+          'http://localhost:5984/public': '.grunt/couchdb.json'
+        }
+      }
+    },
     'gh-pages': {
       'gh-pages': {
         options: {
@@ -101,6 +115,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-gh-pages');
+  grunt.loadNpmTasks('grunt-couch');
 
   grunt.registerTask('default', ['build']);
   grunt.registerTask('start', ['connect:server', 'pouchdb']);

@@ -1,5 +1,6 @@
 require.config({
   baseUrl: "javascript",
+  //urlArgs: "bust=v2",
   paths: {
     d3: '../vendor/d3/d3',
     ace: '../vendor/ace',
