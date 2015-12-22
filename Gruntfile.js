@@ -88,11 +88,17 @@ module.exports = function (grunt) {
       unit: {
         configFile: 'karma.conf.js'
       }
+    },
+    cucumberjs: {
+      options: {
+        format: 'pretty',
+        theme: 'bootstrap'
+      },
+      features: []
     }
   });
 
   grunt.task.registerTask('pouchdb', 'Start of PouchDB.', function() {
-    this.async();
     var spawnPouchdbServer = require('spawn-pouchdb-server');
 
     spawnPouchdbServer({
@@ -104,7 +110,7 @@ module.exports = function (grunt) {
       config: {
         file: false
       }
-    }, function (error) {
+    }, function () {
       console.log('Started PouchDB server on http://localhost:5984');
     })
   });
@@ -116,9 +122,10 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-gh-pages');
   grunt.loadNpmTasks('grunt-couch');
+  grunt.loadNpmTasks('grunt-cucumberjs');
 
   grunt.registerTask('default', ['build']);
-  grunt.registerTask('start', ['connect:server', 'pouchdb']);
+  grunt.registerTask('start', ['pouchdb','connect:server:keepalive']);
   grunt.registerTask('build', ['clean', 'copy:dist', 'bower']);
   grunt.registerTask('development', ['copy:development']);
   grunt.registerTask('production', ['copy:production']);
