@@ -31,6 +31,7 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
         $("#download").attr("href", img.src);
         $("#download")[0].click();
       };
+      ga('send', 'event', 'Diagram', 'disk save', 'png');
       event.preventDefault();
     });
 
