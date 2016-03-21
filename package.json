@@ -10,9 +10,11 @@
     "grunt-contrib-copy": "^0.8.2",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-couch": "^1.4.0",
-    "grunt-cucumberjs": "^0.8.6",
     "grunt-gh-pages": "^1.0.0",
-    "spawn-pouchdb-server": "^3.1.0"
+    "grunt-webdriver": "^1.0.0",
+    "spawn-pouchdb-server": "^3.1.0",
+    "wdio-cucumber-framework": "0.0.5",
+    "webdriverio": "^4.0.4"
   },
   "scripts": {
     "start": "grunt start",

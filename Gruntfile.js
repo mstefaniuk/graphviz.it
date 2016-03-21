@@ -84,17 +84,10 @@ module.exports = function (grunt) {
         }
       }
     },
-    karma: {
-      unit: {
-        configFile: 'karma.conf.js'
+    webdriver: {
+      test: {
+        configFile: 'wdio.conf.js'
       }
-    },
-    cucumberjs: {
-      options: {
-        format: 'pretty',
-        theme: 'bootstrap'
-      },
-      features: []
     }
   });
 
@@ -122,12 +115,13 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-gh-pages');
   grunt.loadNpmTasks('grunt-couch');
-  grunt.loadNpmTasks('grunt-cucumberjs');
+  grunt.loadNpmTasks('grunt-webdriver');
 
   grunt.registerTask('default', ['build']);
   grunt.registerTask('start', ['pouchdb','connect:server:keepalive']);
   grunt.registerTask('build', ['clean', 'copy:dist', 'bower']);
   grunt.registerTask('development', ['copy:development']);
   grunt.registerTask('production', ['copy:production']);
+  grunt.registerTask('test', ['build', 'development', 'pouchdb', 'connect', 'webdriver']);
   grunt.registerTask('publish', ['build', 'production', 'gh-pages']);
 };

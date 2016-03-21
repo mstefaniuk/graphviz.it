@@ -1,6 +1,5 @@
 Feature: Welcome screen
 
-  Scenario: During page load waiting animation is shown
-    When user visits bare page
-    Then document body has class preload
-    And animation is shown
+  Scenario: Simple test of page title
+    When user visits main page
+    Then page has title "Graphviz it! - fiddle with diagrams"
