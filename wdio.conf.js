@@ -1,21 +1,36 @@
+var capabilities = [{
+  browserName: 'chrome'
+}];
+
 exports.config = {
   host: 'ondemand.saucelabs.com',
   port: 80,
   user: process.env.SAUCE_USERNAME,
   key: process.env.SAUCE_ACCESS_KEY,
+  updateJob: true,
+  services: ['sauce'],
 
   specs: [
     'features/*.feature'
   ],
 
-  capabilities: [{
-    browserName: 'chrome',
-    public: true
-  //}, {
-    //browserName: 'firefox'
-  //}, {
-  //  browserName: 'phantomjs'
-  }],
+  capabilities: capabilities.map(function(e) {
+    if (process.env.TRAVIS_JOB_NUMBER) {
+      return {
+        browserName: e.browserName,
+        name: "Integration job",
+        public: true,
+        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+        build: process.env.TRAVIS_BUILD_NUMBER
+      }
+    } else {
+      return {
+        browserName: e.browserName,
+        name: "Development launch",
+        public: true
+      }
+    }
+  }),
 
   logLevel: 'specs',
   coloredLogs: true,

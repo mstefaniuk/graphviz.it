@@ -85,6 +85,9 @@ module.exports = function (grunt) {
       }
     },
     webdriver: {
+      options: {
+        updateJob: true
+      },
       test: {
         configFile: 'wdio.conf.js'
       }

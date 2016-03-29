@@ -4,6 +4,23 @@ body {
     overflow: hidden;
 }
 
+#loader {
+    z-index: 1212;
+    position: fixed;
+    width: 100%;
+    height:100%;
+    display: flex;
+    align-items: center;
+    top: 0;
+    opacity: 1;
+    background-color: #F8F8F8;
+    transition: opacity 2s ease-out, z-index 3s step-end;
+}
+body:not(.preload) #loader {
+    opacity: 0;
+    z-index: -1;
+}
+
 #editor, #graph, #examples {
     position: absolute;
     top: 4em;

@@ -1,19 +1,28 @@
 <!DOCTYPE html>
-<head
-    data-version="<%= pkg.version %>">
+<head data-version="<%= pkg.version %>">
   <meta charset="utf-8">
   <title>Graphviz it! - fiddle with diagrams</title>
   <meta name="description" content="Interactive Graphviz editor with neat animations"/>
   <meta name="keywords" content="graphviz, fiddle, editor, interactive, share, online"/>
+  <link rel="stylesheet" type="text/css" href="stylesheet/spinner.css" media="all"/>
   <link rel="stylesheet" type="text/css" href="stylesheet/layout.css" media="all"/>
   <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.css"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 <body class="preload">
+
+<div id="loader">
+  <div class="spinner">
+    <div class="double-bounce1"></div>
+    <div class="double-bounce2"></div>
+  </div>
+</div>
+
 <nav class="navbar navbar-default navbar-fixed-top navbar-collapse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"
+              aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -25,13 +34,16 @@
     <div class="collapse navbar-collapse" id="navbar-collapse">
       <form class="navbar-form navbar-right">
         <div class="btn-group">
-          <a id="button" href="#" class="btn btn-primary"><i class="glyphicon glyphicon-cloud-upload"></i> <span>*</span></a>
-          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a id="button" href="#" class="btn btn-primary"><i class="glyphicon glyphicon-cloud-upload"></i>
+            <span>*</span></a>
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <ul class="dropdown-menu">
-            <li id="savePNGonDisk"><a href="#"><i class="glyphicon glyphicon-floppy-save"></i> Store PNG on disk</a></li>
+            <li id="savePNGonDisk"><a href="#"><i class="glyphicon glyphicon-floppy-save"></i> Store PNG on disk</a>
+            </li>
             <!--<li id="savePNGonLine"><a href="#"><i class="glyphicon glyphicon-paperclip"></i> Store PNG online</a></li>-->
           </ul>
         </div>
@@ -52,17 +64,19 @@
 <a id="download" href="" download="diagram.png"></a>
 <nav class="navbar navbar-fixed-bottom navbar-inverse">
   <div class="container-fluid">
-  <ul class="nav navbar-nav navbar-left">
-    <li><a href="https://twitter.com/graphvizit"><i class="fa fa-twitter fa-lg"></i> Follow</a></li>
-    <li><a href="https://github.com/mstefaniuk/graphviz.it/issues"><i class="fa fa-github fa-lg"></i> Support</a></li>
-    <li><a href="mailto:contact@graphviz.it"><i class="fa fa-envelope fa-lg"></i> Email</a></li>
-    <li><a href="https://gitter.im/mstefaniuk/graphviz.it"><i class="fa fa-comment fa-lg"></i> Chat</a></li>
-  </ul>
-  <div class="navbar-right hidden-xs">
-    <p class="navbar-text pull-right"><a href="https://github.com/mstefaniuk/graphviz.it" class="navbar-link">Page</a> v<%= pkg.version %>
-      / <a href="https://github.com/mstefaniuk/graph-viz-d3-js" class="navbar-link">Renderer</a> v<%= bwr.dependencies['graphviz-d3-renderer'] %></p>
-  </div>
+    <ul class="nav navbar-nav navbar-left">
+      <li><a href="https://twitter.com/graphvizit"><i class="fa fa-twitter fa-lg"></i> Follow</a></li>
+      <li><a href="https://github.com/mstefaniuk/graphviz.it/issues"><i class="fa fa-github fa-lg"></i> Support</a></li>
+      <li><a href="mailto:contact@graphviz.it"><i class="fa fa-envelope fa-lg"></i> Email</a></li>
+      <li><a href="https://gitter.im/mstefaniuk/graphviz.it"><i class="fa fa-comment fa-lg"></i> Chat</a></li>
+    </ul>
+    <div class="navbar-right hidden-xs">
+      <p class="navbar-text pull-right"><a href="https://github.com/mstefaniuk/graphviz.it" class="navbar-link">Page</a>
+        v<%= pkg.version %>
+        / <a href="https://github.com/mstefaniuk/graph-viz-d3-js" class="navbar-link">Renderer</a>
+        v<%=bwr.dependencies['graphviz-d3-renderer'] %></p>
     </div>
+  </div>
 </nav>
 
 <script src="vendor/requirejs/require.js" data-main="main.js"></script>
