@@ -22,7 +22,7 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
 
     var middleware = {
       image: function (req, event, next) {
-        var img = renderer.getImage();
+        var img = renderer.stage.getImage(false);
         img.onload = function () {
           req.image = img.src;
           next();
@@ -36,7 +36,7 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
     });
 
     $("#savePNGonDisk a").click(function (event) {
-      var img = renderer.getImage();
+      var img = renderer.stage.getImage(false);
       img.onload = function () {
         $("#download").attr("href", img.src);
         $("#download")[0].click();
