@@ -36,6 +36,13 @@ define(['pouchdb', 'config'], function (PouchDB, config) {
             next();
           });
       },
+      image: function (req, event, next) {
+        var image = dataURItoBlob(req.image);
+        db.putAttachment(req.params.fiddle, 'image.png', currentDocument._rev, image, 'image/png')
+          .then(function () {
+            next();
+          });
+      },
       load: function (req, event, next) {
         db.get(req.params.fiddle).then(function (document) {
           currentDocument = document;

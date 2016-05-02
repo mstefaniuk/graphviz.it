@@ -4,11 +4,11 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
     var bar = $('#editor-bar');
 
     renderer.init("#graph");
-    renderer.errorHandler(function(error) {
+    renderer.errorHandler(function (error) {
       bar.text(error);
     });
 
-    editor.onChange(function(value) {
+    editor.onChange(function (value) {
       renderer.render(value);
       bar.text("Ok.");
     });
@@ -20,12 +20,22 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
       gallery: "Fork"
     };
 
-    gallery.resources.forEach(function(e) {
+    var middleware = {
+      image: function (req, event, next) {
+        var img = renderer.getImage();
+        img.onload = function () {
+          req.image = img.src;
+          next();
+        }
+      }
+    };
+
+    gallery.resources.forEach(function (e) {
       $("#examples select")
         .append("<option>" + e + "</option>");
     });
 
-    $("#savePNGonDisk a").click(function(event) {
+    $("#savePNGonDisk a").click(function (event) {
       var img = renderer.getImage();
       img.onload = function () {
         $("#download").attr("href", img.src);
@@ -35,43 +45,35 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
       event.preventDefault();
     });
 
-    $("#savePNGonLine a").click(function(event) {
-      var img = renderer.getImage();
-      img.onload = function () {
-        db.savePNG(img.src);
-      };
-      event.preventDefault();
-    });
-
-    var router =  new Grapnel();
-    router.add("/", function() {
+    var router = new Grapnel();
+    router.add("/", function () {
       editor.contents("digraph G {\n  ex -> am -> ple\n}");
-    }).add("/new", function() {
+    }).add("/new", function () {
       editor.contents("digraph G {\n\t\n}");
-    }).add("/save", editor.middleware.source, db.middleware.save, db.middleware.update, function(req) {
+    }).add("/save", middleware.image, editor.middleware.source, db.middleware.save, db.middleware.update, db.middleware.image, function (req) {
       router.navigate('/' + req.params.fiddle);
-    }).add("/fork", editor.middleware.source, db.middleware.save, db.middleware.update, function(req) {
+    }).add("/fork", editor.middleware.source, db.middleware.save, db.middleware.update, function (req) {
       router.navigate('/' + req.params.fiddle);
-    }).add("/update", editor.middleware.source, db.middleware.update, function(req) {
-        router.navigate("/" + [req.params.fiddle, req.params.attachment].join('/'));
-    }).add("/gallery", function() {
+    }).add("/update", middleware.image, editor.middleware.source, db.middleware.update, db.middleware.image, function (req) {
+      router.navigate("/" + [req.params.fiddle, req.params.attachment].join('/'));
+    }).add("/gallery", function () {
       router.navigate('/gallery/' + gallery.random());
-    }).add("/gallery/:gallery", gallery.middleware.load, function(req) {
+    }).add("/gallery/:gallery", gallery.middleware.load, function (req) {
       document = req.document;
       editor.contents(req.source);
       $('#examples select').val(req.params.gallery);
-    }).add("/:fiddle([a-zA-Z]{8})/:attachment?", db.middleware.load, db.middleware.source, function(req) {
+    }).add("/:fiddle([a-zA-Z]{8})/:attachment?", db.middleware.load, db.middleware.source, function (req) {
       document = req.document;
       editor.contents(req.source);
-    }).add("*", function(req, e) {
-      if(!e.parent()) {
+    }).add("*", function (req, e) {
+      if (!e.parent()) {
         router.navigate('/gallery');
       } else {
-        var clazz = e.previousState.req.keys.length>0 ? e.previousState.req.keys[0].name : e.previousState.route.replace('/','');
+        var clazz = e.previousState.req.keys.length > 0 ? e.previousState.req.keys[0].name : e.previousState.route.replace('/', '');
         clazz = clazz || 'home';
         $('body').removeClass().addClass(clazz);
         var state = transitions[clazz];
-        if (state!=undefined) {
+        if (state != undefined) {
           $('#button').attr("href", "#/" + state.toLowerCase());
           $('#button span').text(state + " diagram");
         }
@@ -80,11 +82,12 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
       }
     });
 
-    $('#examples select').on('keydown change', function() {
+    $('#examples select').on('keydown change', function () {
       var example = this.value;
-      setTimeout(function() {
+      setTimeout(function () {
         router.navigate("/gallery/" + example);
       }, 50);
     });
   }
-);
+)
+;
