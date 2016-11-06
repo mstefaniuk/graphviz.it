@@ -34,6 +34,7 @@ module.exports = function (grunt) {
         cwd: 'app',
         src: ['**'],
         dest: 'dist/',
+        dot: true,
         options: {
           process: function(content) {
             return grunt.template.process(content);
@@ -66,7 +67,8 @@ module.exports = function (grunt) {
     'gh-pages': {
       'gh-pages': {
         options: {
-          base: 'dist'
+          base: 'dist',
+          dotfiles: true
         },
         src: ['**']
       }
