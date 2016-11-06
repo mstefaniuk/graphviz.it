@@ -28,7 +28,7 @@
   "dependencies": {
     "graphviz-d3-renderer": "0.9.18",
     "ace": "1.1.9",
-    "pouchdb": "~5.0.0",
+    "pouchdb": "~5.4.0",
     "bootstrap": "3.3.2",
     "grapnel": "~0.6.2"
   }
