@@ -50,11 +50,11 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
       editor.contents("digraph G {\n  ex -> am -> ple\n}");
     }).add("/new", function () {
       editor.contents("digraph G {\n\t\n}");
-    }).add("/save", middleware.image, editor.middleware.source, db.middleware.save, db.middleware.update, function (req) {
+    }).add("/save", middleware.image, editor.middleware.source, db.middleware.save, db.middleware.update, db.middleware.image, function (req) {
       router.navigate('/' + req.params.fiddle);
     }).add("/fork", editor.middleware.source, db.middleware.save, db.middleware.update, function (req) {
       router.navigate('/' + req.params.fiddle);
-    }).add("/update", middleware.image, editor.middleware.source, db.middleware.update, function (req) {
+    }).add("/update", middleware.image, editor.middleware.source, db.middleware.update, db.middleware.image, function (req) {
       router.navigate("/" + [req.params.fiddle, req.params.attachment].join('/'));
     }).add("/gallery", function () {
       router.navigate('/gallery/' + gallery.random());

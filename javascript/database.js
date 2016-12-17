@@ -1,7 +1,6 @@
 define(['pouchdb', 'config'], function (PouchDB, config) {
 
   var db = new PouchDB(config.db.public);
-  PouchDB.debug.enable('pouchdb:http');
 
   var currentDocument;
 

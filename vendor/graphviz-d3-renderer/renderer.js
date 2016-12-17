@@ -53,7 +53,40 @@ define('palette',[],function () {
     }
   };
 });
-define('transitions/default',[], function() {
+define('styliseur',["d3"], function(d3) {
+  var styliseur = function () {
+    this.each(function (d) {
+      var self = d3.select(this);
+      var colorInsteadOfStroke = this instanceof SVGTextElement || false;
+      d && d.style && d.style.forEach(function (e) {
+        switch (e.key) {
+          case "stroke":
+          case "fill":
+            var attribute = e.key==="stroke" && colorInsteadOfStroke ? "color" : e.key;
+            var transparent = e.value.indexOf("#")===0 &&  e.value.length === 9;
+            var color = transparent ? e.value.substr(0,7) : e.value;
+            var opacity = transparent ? parseInt(e.value.substr(7,2),16)/255 : 1;
+            self.attr(attribute, color);
+            opacity && self.attr(attribute + "-opacity", opacity);
+            break;
+          case "font-size":
+          case "font-family":
+            self.attr(e.key, e.value);
+            break;
+          case "style":
+            if (e.value.indexOf('setline') === 0) {
+              self.attr('stroke-width', 2);
+            } else {
+              self.attr('class', e.value);
+            }
+        }
+      });
+    });
+  };
+
+  return styliseur;
+});
+define('transitions/default',["styliseur"], function(styliseur) {
   return {
     document: function(selection, attributer) {
       selection
@@ -67,7 +100,8 @@ define('transitions/default',[], function() {
         .transition()
         .delay(150)
         .duration(900)
-        .call(attributer);
+        .call(attributer)
+        .call(styliseur);
     },
     nodes: function (selection, attributer) {
       selection
@@ -75,7 +109,8 @@ define('transitions/default',[], function() {
         .transition()
         .delay(150)
         .duration(900)
-        .call(attributer);
+        .call(attributer)
+        .call(styliseur);
     },
     relations: function (selection, attributer) {
       selection
@@ -83,7 +118,8 @@ define('transitions/default',[], function() {
         .transition()
         .delay(150)
         .duration(900)
-        .call(attributer);
+        .call(attributer)
+        .call(styliseur);
     },
     exits: function (selection, attributer) {
       selection
@@ -97,14 +133,16 @@ define('transitions/default',[], function() {
         .transition()
         .delay(150)
         .duration(900)
-        .call(attributer);
+        .call(attributer)
+        .call(styliseur);
     },
     labels: function (labels, attributer) {
       labels
         .transition()
         .delay(150)
         .duration(900)
-        .call(attributer);
+        .call(attributer)
+        .call(styliseur);
     }
   };
 });
@@ -156,23 +194,10 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
         })
         .text(function (d) {
           return d.text;
+        })
+        .attr("text-anchor", function(d){
+          return d.anchor;
         });
-
-      this.each(function (d) {
-        var self = d3.select(this);
-        d.style.map(function (e) {
-          switch (e.key) {
-            case "stroke":
-              return {key: "color", value: e.value};
-            case "font-size":
-              return {key: e.key, value: e.value + "px"};
-            default:
-              return e;
-          }
-        }).forEach(function (e) {
-          self.style(e.key, e.value);
-        });
-      });
     };
 
     function zoomed() {
@@ -189,12 +214,12 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
         svg.append("style")
           .attr("type", "text/css")
           .text([
-            'path {fill: transparent}',
-            'text {text-anchor: middle; font-family:"Times-Roman",serif; font-size: 10pt}',
+            '.dashed {stroke-dasharray: 5,5}',
+            '.dotted {stroke-dasharray: 1,5}',
             '.overlay {fill: none; pointer-events: all}'
           ].join(' '));
         main = svg.append("g").append("g");
-        main.append("polygon").attr("stroke", "none");
+        main.append("polygon").attr("stroke", {red: 255, green: 255, blue: 255, opacity: 0});
 
         if (definition.zoom) {
           var extent = definition.zoom && definition.zoom.extent || [0.1, 10];
@@ -220,7 +245,7 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
         }
         return svg.node().parentNode.innerHTML;
       },
-      setZoom: function(zoomParams) {
+      setZoom: function (zoomParams) {
         zoomParams.scale && zoom.scale(zoomParams.scale);
         zoomParams.translate && zoom.translate(zoomParams.translate);
         zoom.event(svg);
@@ -247,7 +272,7 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
               " " + "translate(" + sizes.vtranslate + "," + sizes.htranslate + ")");
         });
 
-        var polygon = main.select("polygon");
+        var polygon = main.select("polygon").data(stage.main.shapes);
         transitions.canvas(polygon, function () {
           this
             .attr("points", function () {
@@ -260,10 +285,6 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
                   return e.join(",");
                 }).join(" ");
             });
-          var self = this;
-          sizes.style.forEach(function (e) {
-            self.style(e.key, e.value);
-          });
         });
 
         var overlay = svg.select("rect.overlay");
@@ -318,11 +339,6 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
             .attr("d", function (d) {
               var shape = d.shape;
               return palette[shape](d);
-            })
-            .attr("style", function (d) {
-              return d.style.map(function (e) {
-                return [e.key, e.value].join(':');
-              }).join(';');
             });
         });
 
@@ -332,8 +348,8 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
         labels.enter().append("text");
         transitions.labels(labels, labelAttributer);
       },
-      getImage: function(reset) {
-        reset = reset===undefined ? true : reset;
+      getImage: function (reset) {
+        reset = reset === undefined ? true : reset;
         var svgXml = this.svg(reset);
         var scaleFactor = 1;
 
@@ -342,7 +358,7 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
 
         var pngImage = new Image();
 
-        svgImage.onload = function() {
+        svgImage.onload = function () {
           var canvas = document.createElement("canvas");
           canvas.width = svgImage.width * scaleFactor;
           canvas.height = svgImage.height * scaleFactor;
@@ -385,7 +401,7 @@ define('worker',[],function () {
 
 define('renderer',["stage", "worker!layout-worker.js"], function(stage, worker) {
 
-  var initialized = false, pending, callback;
+  var initialized = false, pending, errorCallback, renderCallback;
 
   worker.onmessage = function (event) {
     switch (event.data.type) {
@@ -397,10 +413,11 @@ define('renderer',["stage", "worker!layout-worker.js"], function(stage, worker) 
         break;
       case "stage":
         stage.draw(event.data.body);
+        renderCallback && renderCallback();
         break;
       case "error":
-        if (callback) {
-          callback(event.data.body);
+        if (errorCallback) {
+          errorCallback(event.data.body);
         }
     }
   };
@@ -418,7 +435,10 @@ define('renderer',["stage", "worker!layout-worker.js"], function(stage, worker) 
     },
     stage: stage,
     errorHandler: function(handler) {
-      callback = handler;
+      errorCallback = handler;
+    },
+    renderHandler: function(handler) {
+      renderCallback = handler;
     }
   };
 
