@@ -6354,7 +6354,7 @@ define('transformer',['viz', 'parser/xdot', 'pegast'], function (viz, xdotparser
         };
       }
 
-      function addElements(node) {
+      function addShapesAndLabels(node) {
         var cursor = result[result.length - 1];
         cursor.shapes = cursor.shapes.concat(node.elements.filter(function(e){
           return e.shape;
@@ -6366,17 +6366,18 @@ define('transformer',['viz', 'parser/xdot', 'pegast'], function (viz, xdotparser
 
       function fixShapeStyles(element) {
         if (element.style) {
-          var keys = styleKeys(element.style);
+          var keys = element.style.map(function(e) {return e.key});
           keys.indexOf("fill") < 0 && element.style.push({key: 'fill', value: "none"});
           keys.indexOf("stroke") < 0 && element.style.push({key: 'stroke', value: "black"});
         }
         return element;
       }
 
-      function styleKeys(styles) {
-        return styles.map(function(e) {
-          return e.key;
-        });
+      function addNodeAttribute(name) {
+        return function(node) {
+          var cursor = result[result.length - 1];
+          cursor[name] = node.value;
+        };
       }
 
       var visit = pegast.nodeVisitor({
@@ -6386,9 +6387,14 @@ define('transformer',['viz', 'parser/xdot', 'pegast'], function (viz, xdotparser
         struct: visitSubnodes('commands'),
         node: startGroup('attributes'),
         relation: startGroup('attributes'),
-        draw: addElements,
-        hdraw: addElements,
-        ldraw: addElements,
+        draw: addShapesAndLabels,
+        hdraw: addShapesAndLabels,
+        tdraw: addShapesAndLabels,
+        ldraw: addShapesAndLabels,
+        hldraw: addShapesAndLabels,
+        tldraw: addShapesAndLabels,
+        url: addNodeAttribute('url'),
+        tooltip: addNodeAttribute('tooltip'),
         size: function(node) {
           var cursor = result[result.length - 1];
           cursor.size = node.value.map(function(e) {
