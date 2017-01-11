@@ -1,5 +1,7 @@
 var capabilities = [{
   browserName: 'chrome'
+},{
+  browserName: 'firefox'
 }];
 
 exports.config = {
