@@ -54,8 +54,8 @@ define('palette',[],function () {
   };
 });
 define('styliseur',["d3"], function(d3) {
-  var styliseur = function () {
-    this.each(function (d) {
+  var styliseur = function (selection) {
+    selection.each(function (d) {
       var self = d3.select(this);
       var fillInsteadOfStroke = this instanceof SVGTextElement || false;
       d && d.style && d.style.forEach(function (e) {
@@ -184,8 +184,8 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
       };
     }
 
-    var labelAttributer = function () {
-      this
+    var labelAttributer = function (selection) {
+      selection
         .attr("x", function (d) {
           return d.x;
         })
@@ -202,7 +202,7 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
 
     function zoomed() {
       svg.select("g")
-        .attr('transform', 'translate(' + d3.event.translate + ') scale(' + d3.event.scale + ')');
+        .attr('transform', d3.event.transform);
     }
 
     return {
@@ -223,32 +223,30 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
 
         if (definition.zoom) {
           var extent = definition.zoom && definition.zoom.extent || [0.1, 10];
-          zoom = d3.behavior
-            .zoom()
+          zoom = d3.zoom()
             .scaleExtent(extent)
             .on("zoom", zoomed);
 
-          svg.select("g")
-            .call(zoom)
+          svg
             .append("rect")
-            .attr("class", "overlay");
+            .attr("class", "overlay")
+            .call(zoom);
         }
       },
       svg: function (reset) {
         if (reset) {
           var g = svg.select("g").select("g");
-          if (g[0]) {
-            zoom.scale(1);
-            zoom.translate([0, 0]);
+          if (g.node()) {
             g.attr("transform", "translate(0,0)scale(1)");
           }
         }
         return svg.node().parentNode.innerHTML;
       },
       setZoom: function (zoomParams) {
-        zoomParams.scale && zoom.scale(zoomParams.scale);
-        zoomParams.translate && zoom.translate(zoomParams.translate);
-        zoom.event(svg);
+        var g = svg.select("g");
+        var k = zoomParams.scale ? zoomParams.scale : d3.zoomTransform().k;
+        var [x, y] = zoomParams.translate ? zoomParams.translate : [d3.zoomTransform().x, d3.zoomTransform().y];
+        g.call(zoom.transform, d3.zoomIdentity.translate(x, y).scale(k));
       },
       transitions: function (custom) {
         if (custom) {
@@ -261,8 +259,8 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
         var sizes = calculateSizes(stage.main);
         var area = [0, 0, sizes.width, sizes.height];
 
-        transitions.document(svg, function () {
-          this
+        transitions.document(svg, function (selection) {
+          selection
             .attr("width", sizes.width + "pt")
             .attr("height", sizes.height + "pt")
             .attr("viewBox", area.join(' '))
@@ -273,14 +271,14 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
         });
 
         var polygon = main.select("polygon").data(stage.main.shapes);
-        transitions.canvas(polygon, function () {
-          this
+        transitions.canvas(polygon, function (selection) {
+          selection
             .attr("points", function () {
               return [
                 [-sizes.margin, sizes.margin],
-                [-sizes.margin, -sizes.boundingHeight],
-                [sizes.boundingWidth, -sizes.boundingHeight],
-                [sizes.boundingWidth, sizes.margin]]
+                [-sizes.margin, -sizes.boundingHeight + sizes.margin],
+                [sizes.boundingWidth - sizes.margin, -sizes.boundingHeight + sizes.margin],
+                [sizes.boundingWidth - sizes.margin, sizes.margin]]
                 .map(function (e) {
                   return e.join(",");
                 }).join(" ");
@@ -288,17 +286,17 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
         });
 
         var overlay = svg.select("rect.overlay");
-        if (overlay[0]) {
-          transitions.canvas(overlay, function () {
-            this
+        if (overlay.node()) {
+          transitions.canvas(overlay, function (selection) {
+            selection
               .attr('width', sizes.width / sizes.scaleWidth)
-              .attr('height', sizes.height / sizes.scaleHeight)
-              .attr('y', -sizes.height / sizes.scaleHeight);
+              .attr('height', sizes.height / sizes.scaleHeight);
           });
         }
         var label = main.selectAll("text")
           .data(stage.main.labels);
-        label.enter().append("text");
+        label = label.enter().append("text")
+          .merge(label);
         transitions.labels(label, labelAttributer);
 
         var groups = main.selectAll("g")
@@ -306,8 +304,12 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
             return d.id;
           });
         var entering = groups.enter()
-          .append("g").attr("class", function (d) {
+          .append("g")
+          .attr("class", function (d) {
             return d.class;
+          })
+          .attr("id", function (d) {
+            return d.identifier;
           });
         entering.append("title").text(function (d) {
           return d.id;
@@ -319,19 +321,20 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
           .attr("xlink:href", function(d) {return d.url;})
           .attr("xlink:title", function(d) {return d.tooltip;});
 
-        transitions.nodes(entering.filter(".node:empty,.node a"), function () {
-          this.style("opacity", 1.0);
+        transitions.nodes(entering.filter(".node:empty,.node a"), function (selection) {
+          selection.style("opacity", 1.0);
         });
-        transitions.relations(entering.filter(".relation"), function () {
-          this.style("opacity", 1.0);
+        transitions.relations(entering.filter(".relation"), function (selection) {
+          selection.style("opacity", 1.0);
         });
-        transitions.exits(groups.exit(), function () {
-          this.remove();
+        transitions.exits(groups.exit(), function (selection) {
+          selection.remove();
         });
 
         groups.sort(function (a, b) {
           return order[a.class] - order[b.class];
         });
+        groups.select("a"); // Propagate new data for update selection
 
         var leaves = main
           .selectAll("*")
@@ -347,9 +350,13 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
             return [d.shape, i].join('-');
           }
         );
-        shapes.enter().append("path");
-        transitions.shapes(shapes, function () {
-          this
+        transitions.exits(shapes.exit(), function (selection) {
+          selection.remove();
+        });
+        shapes = shapes.enter().append("path")
+          .merge(shapes);
+        transitions.shapes(shapes, function (selection) {
+          selection
             .attr("d", function (d) {
               var shape = d.shape;
               return palette[shape](d);
@@ -361,7 +368,12 @@ define('stage',["d3", "palette", "transitions/default"], function (d3, palette, 
           .data(function (d) {
             return d.labels;
           });
-        labels.enter().append("text");
+        transitions.exits(labels.exit(), function (selection) {
+          selection.remove();
+        });
+        labels = labels.enter().append("text")
+          .call(labelAttributer)
+          .merge(labels);
         transitions.labels(labels, labelAttributer);
       },
       getImage: function (reset) {
