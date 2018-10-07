@@ -39,9 +39,21 @@ require(["editor", "jquery", "database", "renderer", "grapnel", "analytics", "ga
       var img = renderer.stage.getImage(false);
       img.onload = function () {
         $("#download").attr("href", img.src);
+        $("#download").attr("download", "graphviz.png");
         $("#download")[0].click();
       };
       ga('send', 'event', 'Diagram', 'disk save', 'png');
+      event.preventDefault();
+    });
+
+    $("#saveSVGonDisk a").click(function (event) {
+      var svgData = renderer.stage.svg(false);
+      var svgBlob = new Blob([svgData], {type:"image/svg+xml;charset=utf-8"});
+      var svgUrl = URL.createObjectURL(svgBlob);
+      $("#download").attr("href", svgUrl);
+      $("#download").attr("download", "graphviz.svg");
+      $("#download")[0].click();
+      ga('send', 'event', 'Diagram', 'disk save', 'svg');
       event.preventDefault();
     });
 
