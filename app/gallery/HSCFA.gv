@@ -1,0 +1,49 @@
+digraph HSCFA {
+
+   vis -> x1 [weight=1000];
+   vis -> x2 [weight=1000];
+   vis -> x3 [weight=1000];
+   text -> x4 [weight=1000];
+   text -> x5 [weight=1000];
+   text -> x6 [weight=1000];
+   math -> x7 [weight=1000];
+   math -> x8 [weight=1000];
+   math -> x9 [weight=1000];
+   vis -> math [dir=both];
+   vis -> text [dir=both];
+   text -> math [dir=both];
+
+   x1 [shape=box,group="obsvar"];
+   x2 [shape=box,group="obsvar"];
+   x3 [shape=box,group="obsvar"];
+   x4 [shape=box,group="obsvar"];
+   x5 [shape=box,group="obsvar"];
+   x6 [shape=box,group="obsvar"];
+   x7 [shape=box,group="obsvar"];
+   x8 [shape=box,group="obsvar"];
+   x9 [shape=box,group="obsvar"];
+
+   { rank = same; x1; x2; x3; x4; x5; x6; x7; x8; x9 }
+   { rank = same; vis; math; }
+   { rank = max; d1; d2; d3; d4; d5; d6; d7; d8; d9 }
+
+   d1 -> x1;
+   d1 [shape=plaintext,label=""];
+   d2 -> x2;
+   d2 [shape=plaintext,label=""];
+   d3 -> x3;
+   d3 [shape=plaintext,label=""];
+   d4 -> x4;
+   d4 [shape=plaintext,label=""];
+   d5 -> x5;
+   d5 [shape=plaintext,label=""];
+   d6 -> x6;
+   d6 [shape=plaintext,label=""];
+   d7 -> x7;
+   d7 [shape=plaintext,label=""];
+   d8 -> x8;
+   d8 [shape=plaintext,label=""];
+   d9 -> x9;
+   d9 [shape=plaintext,label=""];
+
+}
