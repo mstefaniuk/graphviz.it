@@ -1,5 +1,7 @@
 Graphviz.it website
 ===================
+
+[![Join the chat at https://gitter.im/mstefaniuk/graphviz.it](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/mstefaniuk/graphviz.it?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 It uses `graphviz-d3-renderer` Bower module and adds editor and live preview of code. Try it on [Graphviz fiddling website](http://graphviz.it/).
 
 Features
